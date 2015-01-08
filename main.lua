@@ -36,13 +36,7 @@ function love.keyreleased(key)
 	elseif ( key == "2" ) then
 		state.set("menu")
 	elseif ( key == "`" ) then
-		if ( debugger.gui == true ) then
-			debugger.gui = false
-			debug.push("GUI", "has been Disabled")
-		else
-			debugger.gui = true
-			debug.push("GUI", "has been Enabled")
-		end
+		debug.toggleGUI()
 	end
 end
 

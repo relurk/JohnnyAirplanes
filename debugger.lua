@@ -28,3 +28,12 @@ function debug.push( head, body )
 			print(head, body)
 	end
 end
+function debug.toggleGUI()
+	if ( debugger.gui == true ) then
+		debugger.gui = false
+		debug.push("GUI", "Has been Disabled")
+	else
+		debugger.gui = true
+		debug.push("GUI", "Has been Enabled")
+	end
+end
