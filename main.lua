@@ -13,16 +13,14 @@ require "gamestate/new"
 require "gamestate/menu"
 
 function love.load()
-	debug.load()
 	state.load()
 end
 
 function love.update(dt)
-
+	state.update(dt)
 end
 
 function love.draw()
-	debug.draw()
     state.draw()
 end
 

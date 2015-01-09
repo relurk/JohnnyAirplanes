@@ -1,20 +1,30 @@
 gsNew = {}
-splash1 = { "This is wonderful" }
-splash2 = { "THIS IS WONDERFUL" }
+splash = { "This is a game..", "That you cannot win" }
 
 
 
 function gsNew.load()
-
+	initTime = love.timer.getTime()
+	updateTime = 0
+	splashDisplay = 1
+	debug.push("TIME", initTime)
+	debug.push("SPLASH", splash[splashDisplay])
 end
 
-function gsNew.update()
+function gsNew.update( dt )
+	updateTime = updateTime + 1
 
+	if ( updateTime < 100 ) then
+		splashDisplay = 1
+	elseif ( updateTime > 100 and updateTime < 200 ) then
+		splashDisplay = 2
+	elseif ( updateTime > 250 ) then
+		state.set("menu")
+	end
+	debug.push("UPDATE", updateTime)
 end
 
 function gsNew.draw()
 	love.graphics.setBackgroundColor(50,50,100)
-	love.graphics.print("New gamestate ! press 2 for more", 20, 20)
-	love.timer.sleep( 2 )
-	state.set("menu")
+	love.graphics.print(splash[splashDisplay], 20, 20)
 end
