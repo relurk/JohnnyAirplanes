@@ -1,30 +1,53 @@
 gsNew = {}
-splash = { "This is a game..", "That you cannot win" }
 
-
+splashArt = { love.graphics.newImage("images/splashLogo.png"), love.graphics.newImage("images/splashText.png") }
+spacing = {
+	logoW = global.c - (splashArt[1]:getWidth() / 2),
+	textW = global.c - (splashArt[2]:getWidth() / 2),
+	logoH = (global.h - (splashArt[1]:getHeight() + splashArt[2]:getHeight())) / 2,
+	textH = (global.h - (splashArt[1]:getHeight()) / 2)
+}
 
 function gsNew.load()
-	initTime = love.timer.getTime()
-	updateTime = 0
-	splashDisplay = 1
-	debug.push("TIME", initTime)
-	debug.push("SPLASH", splash[splashDisplay])
+	debug.push("SPACING", spacing.logoH .. " " .. spacing.textH)
+	splashTick = 0
+	noLogo = false
+	bgInt = 200
 end
 
 function gsNew.update( dt )
-	updateTime = updateTime + 1
-
-	if ( updateTime < 100 ) then
-		splashDisplay = 1
-	elseif ( updateTime > 100 and updateTime < 200 ) then
-		splashDisplay = 2
-	elseif ( updateTime > 250 ) then
+	splashTick = splashTick + 1
+	if (splashTick < 80) then
+		onlyLogo = true
+	elseif (splashTick > 80 and splashTick < 180) then
+		onlyLogo = false
+	elseif (splashTick > 180 and splashTick < 185) then
+		spacing.logoH = spacing.logoH + 4
+		spacing.textH = spacing.textH + 6
+	elseif (splashTick > 185 and splashTick < 210) then
+		spacing.logoH = spacing.logoH - 35
+		spacing.textH = spacing.textH - 25
+	elseif (splashTick > 210 and splashTick < 230) then
+		fadeBackground = true
+		noLogo = true
+		bgInt = bgInt - 10
+	elseif (splashTick > 230) then
 		state.set("menu")
 	end
-	debug.push("UPDATE", updateTime)
 end
 
 function gsNew.draw()
-	love.graphics.setBackgroundColor(50,50,100)
-	love.graphics.print(splash[splashDisplay], 20, 20)
+	if onlyLogo then
+		love.graphics.setBackgroundColor(math.random(0,255), math.random(20,100), math.random(0,255))
+		love.graphics.draw(splashArt[1], spacing.logoW, spacing.logoH)
+	else
+		if (noLogo == false) then
+			love.graphics.setBackgroundColor(bgInt,bgInt,bgInt)
+			love.graphics.draw(splashArt[1], spacing.logoW, spacing.logoH)
+			love.graphics.draw(splashArt[2], spacing.textW, spacing.textH)
+		else
+			love.graphics.setBackgroundColor(bgInt, bgInt, bgInt)
+		end
+	end
+	
 end
